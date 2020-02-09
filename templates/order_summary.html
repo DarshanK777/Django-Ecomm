@@ -54,14 +54,15 @@
                     <tr>
                         <td colspan="4"><b>Coupon</b> </td>
                         <td>
-                            $ {{ object.coupon.amount}}
+                            - {{ object.coupon.amount}}
                         </td>
                     </tr>
+                    {% endif %}
                     {% if object.get_total %}
                     <tr>
                         <td colspan="4"><b> Total Price of Orders</b> </td>
                         <td>
-                            - $ {{ object.get_total}}
+                            $ {{ object.get_total}}
                         </td>
                     </tr>
                     <tr>

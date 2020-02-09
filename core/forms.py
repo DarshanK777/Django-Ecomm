@@ -6,22 +6,37 @@ PAYMENT_CHOICES = (('S', 'Stripe'), ('P', 'Paypal'))
 
 
 class CheckOutForm(forms.Form):
-    street_address = forms.CharField()
-    apartment_address = forms.CharField(required=False)
-    country = CountryField(blank_label='(select Country)').formfield(widget=CountrySelectWidget(
-        attrs={
-            'class': 'custom-select d-block w-100'
-        }
-    ))
-    zip = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'class': 'form-control'
-        })
-    )
-    same_billing_addr = forms.BooleanField(
-        widget=forms.CheckboxInput(), required=False)
-    save_info = forms.BooleanField(
-        widget=forms.CheckboxInput(), required=False)
+    shipping_address = forms.CharField(required=False)
+    shipping_address2 = forms.CharField(required=False)
+    shipping_country = CountryField(blank_label='(select Country)'
+                                    ).formfield(required=False,
+                                                widget=CountrySelectWidget(
+                                                    attrs={
+                                                        'class': 'custom-select d-block w-100'
+                                                    }
+                                                ))
+    shipping_zip = forms.CharField(required=False)
+
+    # save_info = forms.BooleanField(
+    #     widget=forms.CheckboxInput(), required=False)
+
+    billing_address = forms.CharField(required=False)
+    billing_address2 = forms.CharField(required=False)
+    billing_country = CountryField(blank_label='(select Country)'
+                                   ).formfield(required=False,
+                                               widget=CountrySelectWidget(
+                                                   attrs={
+                                                       'class': 'custom-select d-block w-100'
+                                                   }
+                                               ))
+
+    billing_zip = forms.CharField(required=False)
+    same_billing_addr = forms.BooleanField(required=False)
+    set_default_shipping = forms.BooleanField(required=False)
+    use_default_shipping = forms.BooleanField(required=False)
+    set_default_billing = forms.BooleanField(required=False)
+    use_default_billing = forms.BooleanField(required=False)
+
     payment_option = forms.ChoiceField(
         widget=forms.RadioSelect(), choices=PAYMENT_CHOICES)
 
@@ -34,3 +49,17 @@ class CouponForm(forms.Form):
         'aria-describeby': "basic-addon2"
 
     }))
+
+
+class RefundForm(forms.Form):
+    ref_code = forms.CharField()
+    message = forms.CharField(widget=forms.Textarea(attrs={
+        'rows': "4"
+    }))
+    email = forms.EmailField()
+
+
+class PaymentForm(forms.Form):
+    stripeToken = forms.CharField(required=False)
+    save = forms.BooleanField(required=False)
+    use_default = forms.BooleanField(required=False)
